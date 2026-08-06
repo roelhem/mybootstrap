@@ -50,7 +50,7 @@ in
   config = lib.mkIf cfg.enable {
     services.nginx.enable = mkDefault true;
 
-    services.nginx.virtualHosts.${cfg.domain} = mkDefault {
+    services.nginx.virtualHosts.${cfg.domain} = {
       extraConfig = ''
         include ${cfg.nginxConfigPackage};
       '';
