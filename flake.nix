@@ -8,7 +8,12 @@
   };
 
   outputs =
-    inputs@{ flake-parts, systems, nixpkgs, ... }:
+    inputs@{
+      flake-parts,
+      systems,
+      nixpkgs,
+      ...
+    }:
     flake-parts.lib.mkFlake { inherit inputs; } (
       { self, config, ... }: {
 
@@ -17,8 +22,9 @@
         systems = import systems;
 
         flake = {
-          # Minimal, test-only VM that hosts the public bootstrap scripts using the
-          # public-host module. See apps.<system>.public-host-vm below to run it in QEMU.
+
+          nixosModules.public-host = ./nix/modules/nixos/public-host;
+
           nixosConfigurations.public-host-vm = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = [
