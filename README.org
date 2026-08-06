@@ -1,0 +1,36 @@
+#+title: My Bootstrap
+
+This is the public part of my bootstrap script for provisioning new systems.
+
+* Entrypoints
+
+** TODO MacOS
+
+#+begin_src bash
+curl https://mmrh.nl/bootstrap.sh | sh
+#+end_src
+
+** TODO NixOS
+
+#+begin_src bash
+curl https://mmrh.nl/bootstrap.sh | sh
+#+end_src
+
+** TODO Windows (PowerShell)
+
+Windows machines are installed using powershell.
+
+#+begin_src powershell
+irm https://mmrh.nl/bootstrap.ps1 | iex
+#+end_src
+
+* How it works
+
+The general idea is to only install only the essential parts to access the private parts of my
+configuration, and then let the nix-configuration scripts found there do the rest of the work.
+
+To make this work, I need to have the following
+
+- Install nix on the machine.
+- Install tailscale and log in at my home-network.
+- Access the nix definitions stored on my private forgejo servers and activate them.
