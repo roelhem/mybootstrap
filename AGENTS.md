@@ -11,7 +11,8 @@ be a minimal, but complete way to: (Order depends on OS)
 ## Planned Project Structure
 
 - [nix/](./nix/) Contains all the nix modules, configurations and other plumbing that need to be public.
-- [entrypoints/](./entrypoints/) Script files that will be published on my public website (at [mmrh.nl](https://mmrh.nl)).
+- [entrypoints/](./entrypoints/) Configuration for an nginx server (defined elsewhere) to serve the entrypoints (at [mmrh.nl](https://mmrh.nl))
+  - [entrypoints/www/](./entrypoints/www/) The script files that are served as public entrypoints.
 - [packages/](./packages/) Other code needed for the bootstrap to work. Each package has its own
   as `packages/<package-name>/default.nix` file and is published under `packages` in [flake.nix](./flake.nix) using
   `pkgs.callPackage ./packages/<package-name> {}`.

@@ -44,6 +44,16 @@
           {
             packages.entrypoints = pkgs.callPackage ./entrypoints { };
 
+            packages.install = pkgs.writeShellScriptBin "install" ''
+              echo "Install script is triggered!"
+            '';
+
+            apps.install = {
+              type = "app";
+              program = "${self'.packages.install}/bin/install";
+              meta.description = "Install script entrypoint";
+            };
+
             apps.public-host-vm =
               let
                 # Re-evaluate the VM with its QEMU launcher script built for *this*
