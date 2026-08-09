@@ -45,7 +45,9 @@
             packages.entrypoints = pkgs.callPackage ./entrypoints { };
 
             packages.clone-config-repos = pkgs.callPackage ./packages/clone-config-repos { };
+            packages.ensure-xcode-installed = pkgs.callPackage ./packages/ensure-xcode-installed { };
             packages.install = pkgs.writeShellScriptBin "install" ''
+              ${lib.getExe self'.packages.ensure-xcode-installed}
               su roel -c ${lib.getExe self'.packages.clone-config-repos}
             '';
 
