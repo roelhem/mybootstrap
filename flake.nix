@@ -46,7 +46,7 @@
 
             packages.clone-config-repos = pkgs.callPackage ./packages/clone-config-repos { };
             packages.install = pkgs.writeShellScriptBin "install" ''
-              su -u roel ${lib.getExe self'.packages.clone-config-repos}
+              su roel -c ${lib.getExe self'.packages.clone-config-repos}
             '';
 
             apps.install = {
