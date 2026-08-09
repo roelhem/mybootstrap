@@ -4,19 +4,15 @@ This is the public part of my bootstrap script for provisioning new systems.
 
 * Entrypoints
 
-** TODO MacOS
+** MacOS / Linux
+
+Open a terminal and run:
 
 #+begin_src bash
 curl https://mmrh.nl/bootstrap.sh | sh
 #+end_src
 
-** TODO NixOS
-
-#+begin_src bash
-curl https://mmrh.nl/bootstrap.sh | sh
-#+end_src
-
-** TODO Windows (PowerShell)
+** Windows (PowerShell)
 
 Windows machines are installed using powershell.
 

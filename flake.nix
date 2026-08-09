@@ -44,8 +44,9 @@
           {
             packages.entrypoints = pkgs.callPackage ./entrypoints { };
 
+            packages.clone-config-repos = pkgs.callPackage ./packages/clone-config-repos { };
             packages.install = pkgs.writeShellScriptBin "install" ''
-              echo "Install script is triggered!"
+              su -u roel ${lib.getExe self'.packages.clone-config-repos}
             '';
 
             apps.install = {
