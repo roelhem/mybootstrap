@@ -1,8 +1,15 @@
-{ writeShellApplication, git }:
+{
+  writeShellApplication,
+  git,
+  coreutils,
+}:
 
 writeShellApplication {
   name = "clone-config-repos";
-  runtimeInputs = [ git ];
+  runtimeInputs = [
+    git
+    coreutils
+  ];
 
   text = ''
     mkdir -p ~/workspace/roelhem
