@@ -91,7 +91,7 @@
           };
 
         flake.lib = {
-          bootstrap-identity = builtins.readFile ./bootstrap-identity.pub;
+          bootstrap-identity = builtins.readFile ./secrets/bootstrap-identity.pub;
         };
       }
     );
