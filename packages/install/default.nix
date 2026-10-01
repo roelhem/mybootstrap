@@ -7,7 +7,7 @@
   gum,
   openssh,
   age,
-  age-plugin-fido2-hmac,
+  ensure-bootstrap-identity,
 }:
 
 let
@@ -26,10 +26,11 @@ let
     name = "get-nix-config-secrets";
     runtimeInputs = [
       age
-      age-plugin-fido2-hmac
       gh
+      gum
+      ensure-bootstrap-identity
     ];
-    runtimeEnv.secrets_file = "${../../secrets/bootstrap-nix-config.age}";
+    runtimeEnv.nix_config_secret_file = "${../../secrets/bootstrap-nix-config.age}";
     text = builtins.readFile ./get-nix-config-secrets.bash;
   };
 

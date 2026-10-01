@@ -49,12 +49,21 @@
             packages.entrypoints = pkgs.callPackage ./entrypoints { };
 
             packages.with-home-network = pkgs.callPackage ./packages/with-home-network { };
-            packages.install = pkgs.callPackage ./packages/install { };
+            packages.ensure-bootstrap-identity = pkgs.callPackage ./packages/ensure-bootstrap-identity { };
+            packages.install = pkgs.callPackage ./packages/install {
+              inherit (self'.packages) ensure-bootstrap-identity;
+            };
 
             apps.install = {
               type = "app";
               program = "${self'.packages.install}/bin/install";
               meta.description = "Install script entrypoint";
+            };
+
+            apps.ensure-identity = {
+              type = "app";
+              program = lib.getExe self'.packages.ensure-bootstrap-identity;
+              meta.description = "Decrypt the bootstrap identity (if needed) and print its path";
             };
 
             apps.public-host-vm =
