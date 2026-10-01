@@ -13,7 +13,7 @@ fail() {
 
 gitea_url='https://gitea.mmrh.nl'
 workspace_dir="$HOME/workspace/roelhem"
-repos='myemacs myconf mybootstrap'
+repos='myconf'
 
 # Fail up front with a clear message, instead of an opaque git error for every repo.
 assert_gitea_reachable() {

@@ -2,6 +2,7 @@
   writeShellApplication,
   nix,
   nh,
+  gh,
   ensure-xcode-installed,
   with-home-network,
   clone-config-repos,
@@ -13,6 +14,7 @@ writeShellApplication {
     # Bring our own `nix` for `nh`, rather than relying on the host's install being on PATH.
     nix
     nh
+    gh
     ensure-xcode-installed
     with-home-network
     clone-config-repos
