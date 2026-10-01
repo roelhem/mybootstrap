@@ -25,6 +25,7 @@ export NIX_CONFIG="${NIX_CONFIG:+$NIX_CONFIG
 }experimental-features = nix-command flakes
 access-tokens = github.com=$github_token"
 
+ensure-ssh-key
 ensure-xcode-installed
 
 myconf_flake='github:roelhem/myconf'

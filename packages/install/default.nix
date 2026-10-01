@@ -5,12 +5,19 @@
   gh,
   jq,
   gum,
+  openssh,
 }:
 
 let
   ensure-xcode-installed = writeShellApplication {
     name = "ensure-xcode-installed";
     text = builtins.readFile ./ensure-xcode-installed.bash;
+  };
+
+  ensure-ssh-key = writeShellApplication {
+    name = "ensure-ssh-key";
+    runtimeInputs = [ openssh ];
+    text = builtins.readFile ./ensure-ssh-key.bash;
   };
 
   choose-darwin-configuration = writeShellApplication {
@@ -30,6 +37,7 @@ writeShellApplication {
     nix
     nh
     gh
+    ensure-ssh-key
     ensure-xcode-installed
     choose-darwin-configuration
   ];
