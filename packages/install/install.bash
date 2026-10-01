@@ -19,4 +19,7 @@ export NIX_CONFIG="${NIX_CONFIG:+$NIX_CONFIG
 ensure-xcode-installed
 # `su` doesn't keep this script's PATH, so pass the full store path of the command.
 with-home-network su "$target_user" -c "$(command -v clone-config-repos)"
-nh darwin switch "$target_home/workspace/roelhem/myconf#default"
+# nh refuses to run as root and calls sudo itself when needed, so drop back to the target user.
+# sudo resets the environment, so pass PATH (for the bundled nix) and NIX_CONFIG explicitly.
+sudo -u "$target_user" -H env PATH="$PATH" NIX_CONFIG="$NIX_CONFIG" \
+    nh darwin switch "$target_home/workspace/roelhem/myconf#default"
