@@ -47,10 +47,9 @@
             packages.clone-config-repos = pkgs.callPackage ./packages/clone-config-repos { };
             packages.ensure-xcode-installed = pkgs.callPackage ./packages/ensure-xcode-installed { };
             packages.with-home-network = pkgs.callPackage ./packages/with-home-network { };
-            packages.install = pkgs.writeShellScriptBin "install" ''
-              ${lib.getExe self'.packages.ensure-xcode-installed}
-              ${lib.getExe self'.packages.with-home-network} su roel -c ${lib.getExe self'.packages.clone-config-repos}
-            '';
+            packages.install = pkgs.callPackage ./packages/install {
+              inherit (self'.packages) ensure-xcode-installed with-home-network clone-config-repos;
+            };
 
             apps.install = {
               type = "app";

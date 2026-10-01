@@ -34,13 +34,15 @@ assert_system_supported() {
 
 # STEP 2: install Nix if it isn't already, using the official installer's unattended flags.
 install_nix() {
-    if command -v nix >/dev/null 2>&1; then
+    # Check for the default profile rather than `nix` on PATH: a non-interactive `curl | sh`
+    # shell doesn't source the installer's shell hooks, so an existing install would otherwise
+    # look missing and get re-installed.
+    if [ -e '/nix/var/nix/profiles/default' ]; then
         step 'Nix is already installed.'
-        return
+    else
+        step 'Installing Nix...'
+        curl --proto '=https' --tlsv1.2 -sSf -L https://nixos.org/nix/install | sh -s -- --daemon --yes
     fi
-
-    step 'Installing Nix...'
-    curl --proto '=https' --tlsv1.2 -sSf -L https://nixos.org/nix/install | sh -s -- --daemon --yes
 
     # The installer only wires `nix` into PATH via new shells (by editing /etc/zshrc,
     # /etc/bashrc, etc, which are sourced by *interactive* shells) - it cannot reach back into
@@ -58,7 +60,7 @@ install_nix() {
     esac
 
     if ! command -v nix >/dev/null 2>&1; then
-        fail 'Nix was installed but is still not on PATH.'
+        fail 'Nix is installed but is still not on PATH.'
     fi
 }
 
