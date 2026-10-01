@@ -11,6 +11,11 @@ if [ -z "$target_user" ] || [ "$target_user" = root ]; then
 fi
 target_home=$(eval echo "~$target_user")
 
+# A fresh Nix install doesn't enable flakes yet, which `nh` (and the flakes it builds) rely on.
+# Append rather than overwrite, to keep any NIX_CONFIG the caller already set.
+export NIX_CONFIG="${NIX_CONFIG:+$NIX_CONFIG
+}experimental-features = nix-command flakes"
+
 ensure-xcode-installed
 # `su` doesn't keep this script's PATH, so pass the full store path of the command.
 with-home-network su "$target_user" -c "$(command -v clone-config-repos)"
