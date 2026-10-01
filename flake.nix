@@ -44,11 +44,8 @@
           {
             packages.entrypoints = pkgs.callPackage ./entrypoints { };
 
-            packages.ensure-xcode-installed = pkgs.callPackage ./packages/ensure-xcode-installed { };
             packages.with-home-network = pkgs.callPackage ./packages/with-home-network { };
-            packages.install = pkgs.callPackage ./packages/install {
-              inherit (self'.packages) ensure-xcode-installed;
-            };
+            packages.install = pkgs.callPackage ./packages/install { };
 
             apps.install = {
               type = "app";

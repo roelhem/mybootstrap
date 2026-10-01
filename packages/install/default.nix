@@ -3,9 +3,14 @@
   nix,
   nh,
   gh,
-  ensure-xcode-installed,
 }:
 
+let
+  ensure-xcode-installed = writeShellApplication {
+    name = "ensure-xcode-installed";
+    text = builtins.readFile ./ensure-xcode-installed.bash;
+  };
+in
 writeShellApplication {
   name = "install";
   runtimeInputs = [
