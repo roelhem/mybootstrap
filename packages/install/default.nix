@@ -4,8 +4,6 @@
   nh,
   gh,
   ensure-xcode-installed,
-  with-home-network,
-  clone-config-repos,
 }:
 
 writeShellApplication {
@@ -16,8 +14,6 @@ writeShellApplication {
     nh
     gh
     ensure-xcode-installed
-    with-home-network
-    clone-config-repos
   ];
 
   text = builtins.readFile ./install.bash;

@@ -2,14 +2,13 @@
 # Wrapped by writeShellApplication in ./default.nix, which adds the shebang, strict mode and
 # runtimeInputs on PATH.
 
-# This runs as root (via sudo), so the user that should own the config repos is the one that
+# This runs as root (via sudo), so the user to install the configuration for is the one that
 # invoked sudo, not $USER.
 target_user="${SUDO_USER:-}"
 if [ -z "$target_user" ] || [ "$target_user" = root ]; then
     printf '\033[31minstall failed: run this via sudo from the target (non-root) user.\033[0m\n' >&2
     exit 1
 fi
-target_home=$(eval echo "~$target_user")
 
 # sudo resets the environment, so pass PATH (for the bundled nix and gh) and NIX_CONFIG through
 # explicitly whenever a command runs as the target user.
@@ -35,7 +34,6 @@ export NIX_CONFIG="${NIX_CONFIG:+$NIX_CONFIG
 access-tokens = github.com=$github_token"
 
 ensure-xcode-installed
-# `su` doesn't keep this script's PATH, so pass the full store path of the command.
-with-home-network su "$target_user" -c "$(command -v clone-config-repos)"
 # nh refuses to run as root and calls sudo itself when needed, so drop back to the target user.
-as_target_user nh darwin switch "$target_home/workspace/roelhem/myconf#default"
+# `--refresh` bypasses nix's (1 hour) flake cache, so the latest pushed myconf is always used.
+as_target_user nh darwin switch 'github:roelhem/myconf#default' -- --refresh
