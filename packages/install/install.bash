@@ -26,5 +26,9 @@ export NIX_CONFIG="${NIX_CONFIG:+$NIX_CONFIG
 access-tokens = github.com=$github_token"
 
 ensure-xcode-installed
+
+myconf_flake='github:roelhem/myconf'
+configuration=$(choose-darwin-configuration "$myconf_flake")
+printf '\033[36m==> %s\033[0m\n' "Activating $myconf_flake#$configuration..."
 # `--refresh` bypasses nix's (1 hour) flake cache, so the latest pushed myconf is always used.
-nh darwin switch 'github:roelhem/myconf#default' -- --refresh
+nh darwin switch "$myconf_flake#$configuration" -- --refresh
