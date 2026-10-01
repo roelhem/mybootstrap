@@ -23,9 +23,8 @@ fail() {
     exit 1
 }
 
-# Linux keeps $XDG_RUNTIME_DIR on a tmpfs, and macOS clears /tmp on boot, so the identity never
-# survives a reboot.
-identity_dir="${XDG_RUNTIME_DIR:-/tmp}/mybootstrap-$(id -u)"
+identity_dir="$HOME/.config/mybootstrap"
+mkdir -p "$HOME/.config"
 identity_file="$identity_dir/bootstrap-identity"
 
 # Decrypts the given file to stdout with the local identity files that exist, or else with a
