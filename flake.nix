@@ -5,6 +5,9 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     systems.url = "github:nix-systems/default";
     flake-parts.url = "github:hercules-ci/flake-parts";
+
+    agenix.url = "github:ryantm/agenix";
+    agenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -37,6 +40,7 @@
         perSystem =
           {
             self',
+            inputs',
             pkgs,
             lib,
             ...
@@ -70,7 +74,10 @@
               };
 
             devShells.default = pkgs.mkShell {
-              packages = with pkgs; [ just ];
+              packages = with pkgs; [
+                just
+                inputs'.agenix.packages.default
+              ];
             };
           };
       }

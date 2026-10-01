@@ -6,6 +6,8 @@
   jq,
   gum,
   openssh,
+  age,
+  age-plugin-fido2-hmac,
 }:
 
 let
@@ -18,6 +20,17 @@ let
     name = "ensure-ssh-key";
     runtimeInputs = [ openssh ];
     text = builtins.readFile ./ensure-ssh-key.bash;
+  };
+
+  get-nix-config-secrets = writeShellApplication {
+    name = "get-nix-config-secrets";
+    runtimeInputs = [
+      age
+      age-plugin-fido2-hmac
+      gh
+    ];
+    runtimeEnv.secrets_file = "${../../secrets/bootstrap-nix-config.age}";
+    text = builtins.readFile ./get-nix-config-secrets.bash;
   };
 
   choose-darwin-configuration = writeShellApplication {
@@ -36,7 +49,7 @@ writeShellApplication {
     # Bring our own `nix` for `nh`, rather than relying on the host's install being on PATH.
     nix
     nh
-    gh
+    get-nix-config-secrets
     ensure-ssh-key
     ensure-xcode-installed
     choose-darwin-configuration

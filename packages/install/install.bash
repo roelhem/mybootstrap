@@ -9,21 +9,13 @@ if [ "$(id -u)" -eq 0 ]; then
     exit 1
 fi
 
-# Log in to GitHub, skipping the interactive login if already logged in.
-if gh auth status --hostname github.com >/dev/null 2>&1; then
-    printf '\033[36m==> %s\033[0m\n' 'Already logged in to GitHub.'
-else
-    printf '\033[36m==> %s\033[0m\n' 'Logging in to GitHub...'
-    gh auth login --hostname github.com --git-protocol https
-fi
-github_token=$(gh auth token --hostname github.com)
-
 # A fresh Nix install doesn't enable flakes yet, which `nh` (and the flakes it builds) rely on,
 # and the GitHub token lets nix fetch private repositories. Append rather than overwrite, to
 # keep any NIX_CONFIG the caller already set.
+nix_config_secrets=$(get-nix-config-secrets)
 export NIX_CONFIG="${NIX_CONFIG:+$NIX_CONFIG
 }experimental-features = nix-command flakes
-access-tokens = github.com=$github_token"
+$nix_config_secrets"
 
 ensure-ssh-key
 ensure-xcode-installed
