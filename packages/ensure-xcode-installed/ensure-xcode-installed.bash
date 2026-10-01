@@ -48,8 +48,9 @@ install_command_line_tools() {
         fail 'no Command Line Tools package found via softwareupdate'
     fi
 
-    softwareupdate -i "$clt_label"
-    xcode-select --switch /Library/Developer/CommandLineTools
+    # Only these two need root; sudo is called here so an existing install never prompts.
+    sudo softwareupdate -i "$clt_label"
+    sudo xcode-select --switch /Library/Developer/CommandLineTools
     rm -f "$clt_placeholder"
 }
 

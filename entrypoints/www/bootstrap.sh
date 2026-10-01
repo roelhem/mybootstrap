@@ -69,7 +69,7 @@ run_init() {
     step "Handing off to ${MYBOOTSTRAP_FLAKE}#install..."
     # `--refresh` bypasses Nix's (1 hour) cache of the flake, so a re-run right after pushing a
     # fix picks it up instead of running the stale version again.
-    sudo nix run --refresh --extra-experimental-features 'nix-command flakes' --accept-flake-config "${MYBOOTSTRAP_FLAKE}#install" -- "$@"
+    nix run --refresh --extra-experimental-features 'nix-command flakes' --accept-flake-config "${MYBOOTSTRAP_FLAKE}#install" -- "$@"
 }
 
 main() {
